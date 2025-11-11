@@ -143,9 +143,10 @@ int main() {
     Env    env;
     Demon  demon;
     Player player;
+
     cin >> player.slayerLevel >> player.hp >> player.breathingMastery >> player.hasTalisman >> env.timeOfDay >> demon.demonPresence >> demon.demonRank >> player.swordSharpness >> player.allyCount >> demon.bossHP >> player.totalDamage >> player.specialMoveReady;
+
     player.setRef(env, demon);
     player.setPower();
     player.displayScene();
-    return 0;
 }
