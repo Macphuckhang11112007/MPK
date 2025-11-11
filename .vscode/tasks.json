@@ -5,7 +5,7 @@
             "label": "C/C++: g++.exe build active file",
             "command": "g++.exe",
             "args": [
-                "@\"${workspaceFolder}\\.vscode\\args.txt\"",
+                // "@\"${workspaceFolder}\\.vscode\\args.txt\"",
                 "-fdiagnostics-color=always",
                 "-g",
                 "${file}",
