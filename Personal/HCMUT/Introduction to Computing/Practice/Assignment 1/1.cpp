@@ -9,8 +9,10 @@ class Demon;
 
 class Env {
 public:
-    char timeOfDay = 'D';
-} env;
+    char timeOfDay;
+
+    Env() { timeOfDay = 'D'; }
+};
 
 class Demon {
 public:
@@ -47,33 +49,40 @@ public:
         allyCount        = 0;
         totalDamage      = 0;
         specialMoveReady = 0;
+        env              = Env();
         demon            = Demon();
         power            = 20;
         adv              = 126;
         rank             = "Novice";
     }
 
-    void setDemon(Demon &demonRef) { demon = demonRef; }
+    void setRef(Env &envRef, Demon &demonRef) {
+        env   = envRef;
+        demon = demonRef;
+    }
 
     void setPower() { power = slayerLevel * 10.0 + hp / 10.0 + breathingMastery * 50.0; }
 
-    void displayScene(const int &sc) {
-        cout << "[Scene " << sc << "] ";
-        if (sc == 1) {
-            setRank();
-            getRank();
-        } else if (sc == 2) {
-            canOpenGate();
-        } else if (sc == 3) {
-            setAdvantage();
-            battleAdvantage();
-        } else if (sc == 4) {
-            setBossFinalHP();
-            finalOutcome();
+    void displayScene() {
+        for (int sc = 1; sc <= 4; sc++) {
+            cout << "[Scene " << sc << "] ";
+            if (sc == 1) {
+                setRank();
+                getRank();
+            } else if (sc == 2) {
+                canOpenGate();
+            } else if (sc == 3) {
+                setAdvantage();
+                battleAdvantage();
+            } else if (sc == 4) {
+                setBossFinalHP();
+                finalOutcome();
+            }
         }
     }
 
 private:
+    Env    env;
     Demon  demon;
     double power;
     double adv;
@@ -97,7 +106,7 @@ private:
 
     void canOpenGate() {
         if (hasTalisman == 0) {
-            cout << "Denied: No Talisman." << endl;
+            cout << "Denied: No talisman." << endl;
         } else if (env.timeOfDay != 'D' && env.timeOfDay != 'N') {
             cout << "Warning: invalid timeOfDay." << endl;
         } else if (env.timeOfDay == 'N' && demon.demonPresence == 1) {
@@ -131,13 +140,12 @@ private:
 };
 
 int main() {
-    Player player;
+    Env    env;
     Demon  demon;
+    Player player;
     cin >> player.slayerLevel >> player.hp >> player.breathingMastery >> player.hasTalisman >> env.timeOfDay >> demon.demonPresence >> demon.demonRank >> player.swordSharpness >> player.allyCount >> demon.bossHP >> player.totalDamage >> player.specialMoveReady;
-    player.setDemon(demon);
+    player.setRef(env, demon);
     player.setPower();
-    for (int sc = 1; sc <= 4; sc++) {
-        player.displayScene(sc);
-    }
+    player.displayScene();
     return 0;
 }
